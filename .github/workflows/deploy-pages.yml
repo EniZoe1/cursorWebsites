@@ -1,5 +1,8 @@
 # Builds Vite output and deploys ./dist to GitHub Pages.
-# Repo → Settings → Pages → Build and deployment → Source: GitHub Actions
+#
+# WYMAGANE: Repo → Settings → Pages → Build and deployment → Source: GitHub Actions
+# (NIE „Deploy from a branch”). Inaczej GitHub serwuje surowy index.html z roota
+# (/src/main.js, /logo.svg) zamiast folderu dist — na hostingu będzie „zepsuty” widok.
 name: Deploy GitHub Pages
 
 on:
@@ -29,6 +32,16 @@ jobs:
       - run: npm run build
         env:
           VITE_BASE: /${{ github.event.repository.name }}/
+      - name: Verify dist is a Vite production build
+        run: |
+          if grep -q 'src/main.js' dist/index.html; then
+            echo "::error::dist/index.html still references dev entry — build misconfigured"
+            exit 1
+          fi
+          if ! grep -qE 'assets/index-.*\.js' dist/index.html; then
+            echo "::error::dist/index.html missing hashed JS bundle"
+            exit 1
+          fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
