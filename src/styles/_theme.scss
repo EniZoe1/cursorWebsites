@@ -1,0 +1,211 @@
+@use 'variables' as *;
+
+:root {
+  color-scheme: dark light;
+
+  --font-sans: #{$font-sans};
+  --font-display: #{$font-display};
+
+  --ease-out-expo: #{$ease-out-expo};
+  --ease-soft: #{$ease-soft};
+
+  --radius-lg: #{$radius-lg};
+  --radius-md: #{$radius-md};
+  --radius-pill: #{$radius-pill};
+
+  --shadow-glass: #{$shadow-glass};
+  --shadow-soft: #{$shadow-soft};
+
+  --blur-glass: 18px;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+
+  --text-xs: clamp(0.75rem, 0.7rem + 0.2vw, 0.85rem);
+  --text-sm: clamp(0.85rem, 0.8rem + 0.25vw, 0.95rem);
+  --text-md: clamp(1rem, 0.92rem + 0.35vw, 1.125rem);
+  --text-lg: clamp(1.15rem, 1rem + 0.5vw, 1.35rem);
+  --text-xl: clamp(1.75rem, 1.35rem + 1.2vw, 2.35rem);
+  --text-hero: clamp(2.35rem, 1.6rem + 2.4vw, 3.75rem);
+
+  --line-tight: 1.15;
+  --line-body: 1.55;
+
+  --duration-fast: 180ms;
+  --duration-mid: 420ms;
+  --duration-slow: 720ms;
+}
+
+html[data-theme='dark'] {
+  --bg-base: #07080f;
+  --bg-elevated: rgba(18, 20, 32, 0.72);
+  --bg-slide: radial-gradient(120% 120% at 20% 0%, #15182a 0%, #0b0d18 52%, #07080f 100%);
+  // Full-viewport canvas (Reveal sets body.reveal-viewport to white — this replaces it)
+  --bg-page: radial-gradient(ellipse 85% 55% at 0% -10%, rgba(139, 92, 246, 0.22) 0%, transparent 55%),
+    radial-gradient(ellipse 75% 50% at 100% 0%, rgba(34, 211, 238, 0.14) 0%, transparent 52%),
+    radial-gradient(ellipse 60% 45% at 50% 110%, rgba(99, 102, 241, 0.1) 0%, transparent 48%),
+    linear-gradient(165deg, #0c0e18 0%, #07080f 38%, #05060c 100%);
+  --bg-page-vignette: radial-gradient(ellipse 90% 90% at 50% 50%, transparent 35%, rgba(0, 0, 0, 0.45) 100%);
+  --text-primary: #f4f6ff;
+  --text-muted: rgba(228, 232, 255, 0.72);
+  --text-faint: rgba(200, 208, 255, 0.45);
+  --accent: #8b5cf6;
+  --accent-2: #22d3ee;
+  --stroke: rgba(255, 255, 255, 0.12);
+  --glass-bg: rgba(20, 24, 40, 0.45);
+  --glass-highlight: rgba(255, 255, 255, 0.08);
+  --code-bg: rgba(255, 255, 255, 0.06);
+  --chrome-floating: rgba(0, 0, 0, 0.25);
+}
+
+html[data-theme='light'] {
+  --bg-base: #f6f7fb;
+  --bg-elevated: rgba(255, 255, 255, 0.82);
+  --bg-slide: radial-gradient(120% 120% at 15% 0%, #ffffff 0%, #eef0fb 45%, #e6e9f7 100%);
+  --bg-page: radial-gradient(ellipse 85% 55% at 0% -10%, rgba(109, 40, 217, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 75% 50% at 100% 0%, rgba(8, 145, 178, 0.1) 0%, transparent 52%),
+    radial-gradient(ellipse 55% 40% at 40% 100%, rgba(99, 102, 241, 0.06) 0%, transparent 50%),
+    linear-gradient(165deg, #ffffff 0%, #f3f5fc 42%, #e8ecf8 100%);
+  --bg-page-vignette: radial-gradient(ellipse 95% 95% at 50% 50%, transparent 40%, rgba(15, 23, 42, 0.06) 100%);
+  --text-primary: #121528;
+  --text-muted: rgba(24, 28, 52, 0.72);
+  --text-faint: rgba(24, 28, 52, 0.45);
+  --accent: #6d28d9;
+  --accent-2: #0891b2;
+  --stroke: rgba(15, 23, 42, 0.12);
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-highlight: rgba(255, 255, 255, 0.65);
+  --code-bg: rgba(15, 23, 42, 0.06);
+  --chrome-floating: rgba(255, 255, 255, 0.35);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+// Reveal full-page mode: viewport is `body` — paint the entire canvas with theme
+html.reveal-full-page {
+  min-height: 100%;
+  background: var(--bg-page);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  transition:
+    background var(--duration-mid) var(--ease-soft),
+    color var(--duration-fast) var(--ease-soft);
+}
+
+html.reveal-full-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: var(--bg-page-vignette);
+  transition: opacity var(--duration-mid) var(--ease-soft);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-md);
+  line-height: var(--line-body);
+  color: var(--text-primary);
+  background: var(--bg-page);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition:
+    background var(--duration-mid) var(--ease-soft),
+    color var(--duration-fast) var(--ease-soft);
+}
+
+// Overrides reveal.js default `.reveal-viewport { background-color: #fff; color: #000 }`
+body.reveal-viewport {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-page) !important;
+  background-color: transparent !important;
+  color: var(--text-primary) !important;
+}
+
+.reveal {
+  position: relative;
+  z-index: 1;
+}
+
+.reveal {
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+}
+
+.reveal .slides {
+  text-align: left;
+}
+
+.reveal .slides section {
+  padding: var(--space-8) var(--space-12);
+  box-sizing: border-box;
+  background: var(--bg-slide);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow-soft);
+  transition:
+    transform var(--duration-mid) var(--ease-out-expo),
+    opacity var(--duration-mid) var(--ease-soft),
+    filter var(--duration-mid) var(--ease-soft);
+}
+
+.reveal .progress {
+  background: color-mix(in srgb, var(--chrome-floating) 100%, transparent);
+  color: var(--accent);
+}
+
+.reveal .progress span {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width var(--duration-mid) var(--ease-soft);
+}
+
+.reveal .slide-number {
+  color: var(--text-primary);
+  background: var(--glass-bg);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius-pill);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-soft);
+  transition:
+    color var(--duration-fast) var(--ease-soft),
+    background var(--duration-fast) var(--ease-soft),
+    border-color var(--duration-fast) var(--ease-soft);
+}
+
+.reveal .controls {
+  color: var(--text-muted);
+}
+
+.reveal .controls button {
+  border-radius: var(--radius-pill);
+  transition:
+    background var(--duration-fast) var(--ease-soft),
+    color var(--duration-fast) var(--ease-soft),
+    transform var(--duration-fast) var(--ease-soft);
+}
+
+.reveal .controls button:hover {
+  color: var(--text-primary);
+  background: var(--glass-bg);
+}
+
+// Language visibility
+html[data-lang='en'] .lang-pl {
+  display: none !important;
+}
+
+html[data-lang='pl'] .lang-en {
+  display: none !important;
+}

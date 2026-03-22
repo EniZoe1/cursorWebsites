@@ -1,0 +1,13 @@
+// Design tokens — consumed via CSS custom properties in _theme.scss
+$font-sans: 'DM Sans', system-ui, sans-serif;
+$font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+
+$ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+$ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+$radius-lg: 20px;
+$radius-md: 14px;
+$radius-pill: 999px;
+
+$shadow-glass: 0 18px 60px rgba(0, 0, 0, 0.35);
+$shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.18);

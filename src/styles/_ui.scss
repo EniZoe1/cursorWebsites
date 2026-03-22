@@ -1,0 +1,99 @@
+.ui-chrome {
+  position: fixed;
+  z-index: 40;
+  inset: var(--space-6) var(--space-6) auto auto;
+  pointer-events: none;
+}
+
+.ui-chrome__inner {
+  pointer-events: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border-radius: var(--radius-pill);
+}
+
+.glass {
+  position: relative;
+  background: var(--glass-bg);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow-glass);
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+}
+
+.glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    var(--glass-highlight),
+    transparent 42%,
+    transparent 58%,
+    color-mix(in srgb, var(--accent) 12%, transparent)
+  );
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.ui-btn {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  margin: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  font: inherit;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--bg-elevated) 55%, transparent);
+  cursor: pointer;
+  transition:
+    transform var(--duration-fast) var(--ease-soft),
+    background var(--duration-fast) var(--ease-soft),
+    color var(--duration-fast) var(--ease-soft),
+    box-shadow var(--duration-fast) var(--ease-soft);
+}
+
+.ui-btn:hover {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--accent) 18%, var(--bg-elevated));
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.ui-btn:active {
+  transform: translateY(0);
+}
+
+.ui-btn:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent-2) 70%, white);
+  outline-offset: 2px;
+}
+
+.ui-btn--accent {
+  background: linear-gradient(120deg, color-mix(in srgb, var(--accent) 85%, #fff), var(--accent-2));
+  color: #0b0d18;
+}
+
+html[data-theme='light'] .ui-btn--accent {
+  color: #fff;
+}
+
+.ui-btn__icon {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.ui-btn__text {
+  min-width: 2.75rem;
+  text-align: center;
+}
