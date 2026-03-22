@@ -1,3 +1,71 @@
+// Company logo — top-left on slides after the title (hidden on title slide)
+.ui-brand {
+  position: fixed;
+  z-index: 40;
+  inset: var(--space-6) auto auto var(--space-6);
+  pointer-events: none;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--duration-mid) var(--ease-soft),
+    visibility var(--duration-mid) var(--ease-soft),
+    transform var(--duration-mid) var(--ease-soft);
+}
+
+body.is-title-slide .ui-brand {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-6px);
+}
+
+.ui-brand__inner {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  max-width: min(78vw, 24rem);
+}
+
+.ui-brand__btn {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition:
+    transform var(--duration-mid) var(--ease-out-expo),
+    filter var(--duration-mid) var(--ease-soft);
+}
+
+.ui-brand__btn:hover,
+.ui-brand__btn:focus-visible {
+  transform: translateY(-3px) scale(1.04);
+  filter: drop-shadow(0 14px 32px color-mix(in srgb, #d4af37 35%, transparent));
+}
+
+.ui-brand__btn:focus-visible {
+  outline: 2px solid color-mix(in srgb, #d4af37 65%, white);
+  outline-offset: 3px;
+}
+
+.ui-brand__btn:active {
+  transform: translateY(-1px) scale(1.02);
+}
+
+.ui-brand__logo {
+  display: block;
+  width: auto;
+  height: clamp(3.25rem, 9vh, 5.5rem);
+  max-width: min(72vw, 22rem);
+  object-fit: contain;
+  object-position: left center;
+  filter: drop-shadow(0 4px 18px color-mix(in srgb, var(--accent) 22%, transparent));
+}
+
 .ui-chrome {
   position: fixed;
   z-index: 40;

@@ -6,7 +6,91 @@
 }
 
 .slide--title .slide__inner {
-  max-width: 48rem;
+  max-width: min(56rem, 100%);
+}
+
+// Title slide: hero logo + centered copy
+.slide__inner--title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.slide-title-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 var(--space-8);
+  padding: var(--space-4) var(--space-6);
+  border: 0;
+  background: color-mix(in srgb, var(--glass-bg) 80%, transparent);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 0 0 1px var(--stroke),
+    var(--shadow-soft);
+  cursor: pointer;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition:
+    transform var(--duration-mid) var(--ease-out-expo),
+    box-shadow var(--duration-mid) var(--ease-soft),
+    background var(--duration-fast) var(--ease-soft);
+}
+
+.slide-title-logo:hover,
+.slide-title-logo:focus-visible {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 35%, var(--stroke)),
+    0 24px 56px color-mix(in srgb, #d4af37 22%, transparent),
+    0 12px 32px rgba(0, 0, 0, 0.25);
+  background: color-mix(in srgb, var(--glass-bg) 95%, #d4af37 8%);
+}
+
+.slide-title-logo:focus-visible {
+  outline: 2px solid color-mix(in srgb, #d4af37 70%, white);
+  outline-offset: 4px;
+}
+
+.slide-title-logo:active {
+  transform: translateY(-2px) scale(1.01);
+  transition-duration: var(--duration-fast);
+}
+
+.slide-title-logo__img {
+  display: block;
+  width: min(94vw, 52rem);
+  max-width: 100%;
+  height: auto;
+  max-height: min(48vh, 420px);
+  object-fit: contain;
+  object-position: center;
+  filter: drop-shadow(0 8px 28px color-mix(in srgb, #000 45%, transparent));
+  transition:
+    transform var(--duration-mid) var(--ease-out-expo),
+    filter var(--duration-mid) var(--ease-soft);
+}
+
+.slide-title-logo:hover .slide-title-logo__img,
+.slide-title-logo:focus-visible .slide-title-logo__img {
+  filter: drop-shadow(0 16px 48px color-mix(in srgb, #d4af37 45%, transparent));
+}
+
+.slide__inner--title .slide__eyebrow {
+  margin-bottom: var(--space-3);
+}
+
+.slide__inner--title .slide__heading {
+  max-width: 22ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.slide__inner--title .slide__lede {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 36rem;
 }
 
 .slide__eyebrow {

@@ -58,6 +58,26 @@ function initChrome() {
   btnPdf?.addEventListener('click', () => openPrintPdfView());
 }
 
+function bindDeckLogos(deck) {
+  const openOverview = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (typeof deck.toggleOverview === 'function') deck.toggleOverview();
+  };
+
+  document.querySelectorAll('.js-deck-logo').forEach((el) => {
+    el.addEventListener('click', openOverview);
+  });
+
+  const syncTitleSlide = () => {
+    const { h, v } = deck.getIndices();
+    document.body.classList.toggle('is-title-slide', h === 0 && v === 0);
+  };
+
+  deck.on('slidechanged', syncTitleSlide);
+  syncTitleSlide();
+}
+
 async function boot() {
   initChrome();
   injectSlides(slidesRoot);
@@ -81,6 +101,7 @@ async function boot() {
   });
 
   await deck.initialize();
+  bindDeckLogos(deck);
 }
 
 boot();

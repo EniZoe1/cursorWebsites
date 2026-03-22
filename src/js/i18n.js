@@ -4,12 +4,14 @@ const DICT = {
     'ui.themeDark': 'Dark',
     'ui.themeLight': 'Light',
     'ui.pdf': 'PDF',
+    'logo.overview': 'Open slide overview',
   },
   pl: {
     'meta.title': 'Prezentacja',
     'ui.themeDark': 'Ciemny',
     'ui.themeLight': 'Jasny',
     'ui.pdf': 'PDF',
+    'logo.overview': 'Otwórz przegląd slajdów',
   },
 };
 
@@ -41,6 +43,10 @@ export function applyDomTranslations(lang) {
   document.querySelectorAll('[data-i18n]').forEach((el) => {
     const key = el.getAttribute('data-i18n');
     if (key && t[key]) el.textContent = t[key];
+  });
+  document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
+    const key = el.getAttribute('data-i18n-aria');
+    if (key && t[key]) el.setAttribute('aria-label', t[key]);
   });
 }
 
