@@ -1,25 +1,27 @@
-# Builds Vite output and deploys ./dist to GitHub Pages.
+# Buduje Vite (dist) i wypycha na gałąź gh-pages. GitHub Pages serwuje ten folder jako stronę.
 #
-# WYMAGANE: Repo → Settings → Pages → Build and deployment → Source: GitHub Actions
-# (NIE „Deploy from a branch”). Inaczej GitHub serwuje surowy index.html z roota
-# (/src/main.js, /logo.svg) zamiast folderu dist — na hostingu będzie „zepsuty” widok.
+# Ustawienia repozytorium → Pages → Build and deployment:
+#   Source: Deploy from a branch
+#   Branch: gh-pages  /  folder: / (root)
+#
+# (Opcja „GitHub Actions” + artefakt upload-pages-artifact często zostaje na starym
+# widoku z roota repo, jeśli deploy się nie dokończy — ten sposób jest niezawodniejszy.)
 name: Deploy GitHub Pages
 
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,30 +30,22 @@ jobs:
           node-version: '20'
           cache: npm
       - run: npm ci
-      # Ścieżka musi dokładnie odpowiadać nazwie repo w URL (np. /cursorWebsites/), inaczej 404 na assets przy case-sensitive hostingu
       - run: npm run build
         env:
           VITE_BASE: /${{ github.event.repository.name }}/
       - name: Verify dist is a Vite production build
         run: |
           if grep -q 'src/main.js' dist/index.html; then
-            echo "::error::dist/index.html still references dev entry — build misconfigured"
+            echo "::error::dist/index.html still references dev entry"
             exit 1
           fi
           if ! grep -qE 'assets/index-.*\.js' dist/index.html; then
             echo "::error::dist/index.html missing hashed JS bundle"
             exit 1
           fi
-      - uses: actions/upload-pages-artifact@v3
+      - name: Push dist to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          force_orphan: true
