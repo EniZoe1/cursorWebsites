@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/cursorWebsites/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
+    <title data-i18n="meta.title">Presentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="/cursorWebsites/assets/index-CUCW2s-z.js"></script>
+    <link rel="stylesheet" crossorigin href="/cursorWebsites/assets/index-BTsoIXUR.css">
+  </head>
+  <body>
+    <div class="ui-brand" aria-label="Company">
+      <div class="ui-brand__inner glass">
+        <button
+          type="button"
+          class="ui-brand__btn js-deck-logo"
+          data-i18n-aria="logo.overview"
+          aria-label="Open slide overview"
+        >
+          <img
+            class="ui-brand__logo"
+            src="/cursorWebsites/logo.svg"
+            width="1208"
+            height="864"
+            alt=""
+            decoding="async"
+          />
+        </button>
+      </div>
+    </div>
+
+    <div class="ui-chrome" aria-label="Presentation controls">
+      <div class="ui-chrome__inner glass">
+        <button
+          type="button"
+          class="ui-btn"
+          id="btn-theme"
+          aria-pressed="true"
+          data-i18n-attr="aria-label"
+          aria-label="Toggle color theme"
+        >
+          <span class="ui-btn__icon" aria-hidden="true">◐</span>
+          <span class="ui-btn__text" id="theme-label">Dark</span>
+        </button>
+        <button type="button" class="ui-btn" id="btn-lang" aria-label="Switch language">
+          <span class="ui-btn__icon" aria-hidden="true">⇄</span>
+          <span class="ui-btn__text" id="lang-label">EN</span>
+        </button>
+        <button type="button" class="ui-btn ui-btn--accent" id="btn-pdf" data-i18n="ui.pdf">
+          PDF
+        </button>
+      </div>
+    </div>
+
+    <p class="print-pdf-hint" data-i18n="ui.printHint" aria-live="polite"></p>
+
+    <div class="reveal">
+      <div class="slides" id="slides-container"></div>
+    </div>
+
+  </body>
+</html>
