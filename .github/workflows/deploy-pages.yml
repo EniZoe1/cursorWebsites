@@ -25,12 +25,10 @@ jobs:
           node-version: '20'
           cache: npm
       - run: npm ci
-      # Nazwa repo w URL Pages jest zwykle zapisana małymi literami — unikamy 404 na /assets i logo.svg
-      - name: Set VITE_BASE
-        run: |
-          R=$(echo "${GITHUB_REPOSITORY#*/}" | tr '[:upper:]' '[:lower:]')
-          echo "VITE_BASE=/${R}/" >> "$GITHUB_ENV"
+      # Ścieżka musi dokładnie odpowiadać nazwie repo w URL (np. /cursorWebsites/), inaczej 404 na assets przy case-sensitive hostingu
       - run: npm run build
+        env:
+          VITE_BASE: /${{ github.event.repository.name }}/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
