@@ -224,4 +224,9 @@ html[data-lang='pl'] .lang-en {
   .reveal .slides section {
     padding: var(--space-6) var(--space-6);
   }
+
+  // Małe logo fixed w rogu — bez tego nachodzi na tytuł slajdu (nie dotyczy hero, tam logo jest ukryte)
+  body:not(.is-title-slide) .reveal .slides > section {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 5.25rem);
+  }
 }

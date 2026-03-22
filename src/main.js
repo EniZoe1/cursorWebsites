@@ -12,6 +12,7 @@ import {
   getStoredLang,
   getThemeLabel,
   setLang,
+  syncTranslateHints,
   toggleLang,
 } from './js/i18n.js';
 import { getStoredTheme, isDarkTheme, setTheme, toggleTheme } from './js/theme.js';
@@ -122,6 +123,7 @@ function bindDeckLogos(deck) {
 async function boot() {
   initChrome();
   injectSlides(slidesRoot);
+  syncTranslateHints();
 
   const deck = new Reveal({
     hash: true,

@@ -17,6 +17,8 @@ export function injectSlides(container) {
   if (!container) return;
 
   const paths = naturalSortPaths(Object.keys(modules));
-  const html = paths.map((p) => modules[p]).join('\n');
+  let html = paths.map((p) => modules[p]).join('\n');
+  const base = import.meta.env.BASE_URL;
+  html = html.replace(/src="logo\.svg"/g, `src="${base}logo.svg"`);
   container.innerHTML = html;
 }

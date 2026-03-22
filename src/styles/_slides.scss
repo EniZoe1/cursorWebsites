@@ -5,6 +5,20 @@
   margin: 0 auto;
 }
 
+// Treść slajdów (nie hero): wyśrodkowanie w pionie — Reveal.center daje section { min-height: 0 } i blok przykleja się do góry
+.reveal.center .slides > section.slide--content {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  min-height: 100% !important;
+  box-sizing: border-box;
+}
+
+.reveal.center .slides > section.slide--content .slide__inner {
+  width: 100%;
+}
+
 // Szeroki kontener — złoty SVG ma dużą szerokość (viewBox ~1208); wąski max-width obcinał logo
 .slide--title .slide__inner.slide__inner--title {
   max-width: min(98%, 60rem);
@@ -84,16 +98,15 @@
 
 .slide-title-logo:hover,
 .slide-title-logo:focus-visible {
-  transform: translateY(-6px) scale(1.02);
+  transform: translateY(-4px) scale(1.01);
   box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--accent) 35%, var(--stroke)),
-    0 24px 56px color-mix(in srgb, #d4af37 22%, transparent),
-    0 12px 32px rgba(0, 0, 0, 0.25);
-  background: color-mix(in srgb, var(--glass-bg) 95%, #d4af37 8%);
+    0 0 0 1px color-mix(in srgb, var(--stroke) 70%, transparent),
+    0 14px 36px rgba(0, 0, 0, 0.28);
+  background: color-mix(in srgb, var(--glass-bg) 82%, transparent);
 }
 
 .slide-title-logo:focus-visible {
-  outline: 2px solid color-mix(in srgb, #d4af37 70%, white);
+  outline: 2px solid color-mix(in srgb, var(--accent) 55%, white);
   outline-offset: 4px;
 }
 
@@ -120,7 +133,7 @@
 
 .slide-title-logo:hover .slide-title-logo__img,
 .slide-title-logo:focus-visible .slide-title-logo__img {
-  filter: drop-shadow(0 16px 48px color-mix(in srgb, #d4af37 45%, transparent));
+  filter: drop-shadow(0 12px 36px color-mix(in srgb, #000 40%, transparent));
 }
 
 // W trybie mapy slajdów (overview) logo tytułu nie jest aktywne

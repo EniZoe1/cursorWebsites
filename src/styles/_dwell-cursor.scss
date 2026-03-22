@@ -4,8 +4,22 @@
   cursor: none;
 }
 
+.reveal,
+.reveal * {
+  cursor: none !important;
+}
+
 .reveal.overview {
   cursor: none;
+}
+
+// Logo + pasek są poza .reveal — inaczej widać jednocześnie systemowy pointer i kółko
+.ui-brand,
+.ui-brand *,
+.ui-chrome,
+.ui-chrome *,
+.print-pdf-hint {
+  cursor: none !important;
 }
 
 .dwell-cursor {
@@ -145,7 +159,15 @@ html[data-theme='light'] .dwell-cursor--pointer[data-dwell-variant='default'].dw
 }
 
 @media print {
-  .reveal {
+  .reveal,
+  .reveal * {
+    cursor: auto !important;
+  }
+
+  .ui-brand,
+  .ui-brand *,
+  .ui-chrome,
+  .ui-chrome * {
     cursor: auto !important;
   }
 

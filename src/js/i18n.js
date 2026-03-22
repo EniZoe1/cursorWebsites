@@ -44,6 +44,28 @@ export function toggleLang() {
   return setLang(current === 'pl' ? 'en' : 'pl');
 }
 
+/**
+ * Dwujęzyczne slajdy mają oba warianty w DOM (drugi ukryty przez CSS). Chrome / Google Translate
+ * wtedy gubi się lub nie tłumaczy treści — ukrytą gałąź oznaczamy translate="no".
+ */
+export function syncTranslateHints() {
+  const lang = document.documentElement.getAttribute('data-lang') === 'pl' ? 'pl' : 'en';
+  document.querySelectorAll('.lang-pl').forEach((el) => {
+    if (lang === 'pl') {
+      el.removeAttribute('translate');
+    } else {
+      el.setAttribute('translate', 'no');
+    }
+  });
+  document.querySelectorAll('.lang-en').forEach((el) => {
+    if (lang === 'en') {
+      el.removeAttribute('translate');
+    } else {
+      el.setAttribute('translate', 'no');
+    }
+  });
+}
+
 export function applyDomTranslations(lang) {
   const t = DICT[lang] || DICT.en;
   document.querySelectorAll('[data-i18n]').forEach((el) => {
@@ -61,6 +83,8 @@ export function applyDomTranslations(lang) {
     const key = inOverview ? 'logo.closeOverview' : 'logo.overview';
     if (t[key]) chromeLogo.setAttribute('aria-label', t[key]);
   }
+
+  syncTranslateHints();
 }
 
 export function getThemeLabel(isDark, lang) {

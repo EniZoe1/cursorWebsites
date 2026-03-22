@@ -1,10 +1,10 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'node:path';
 
-// Use relative base so assets work when hosted under a subpath (e.g. user.github.io/repo-name/)
+// Lokalnie: `./` — GitHub Pages (user.github.io/repo/): ustaw VITE_BASE=/nazwa-repo/ w CI
 // See https://vitejs.dev/guide/build.html#public-base-path
 export default defineConfig({
-  base: './',
+  base: process.env.VITE_BASE || './',
   root: '.',
   publicDir: 'public',
   css: {

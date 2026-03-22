@@ -52,11 +52,6 @@ export function initDwellNavigation(deck, options = {}) {
     return false;
   }
 
-  function isOverChrome(x, y) {
-    const el = document.elementFromPoint(x, y);
-    return el?.closest?.('.ui-chrome, .ui-brand');
-  }
-
   const POINTER_ANCESTOR =
     'a[href], button, [role="button"], .ui-btn, .controls button, .js-deck-logo, .slide-title-logo, label[for], input[type="checkbox"], input[type="radio"], select, textarea';
 
@@ -188,9 +183,20 @@ export function initDwellNavigation(deck, options = {}) {
   function handleDwellLogic(x, y) {
     const target = document.elementFromPoint(x, y);
     const overReveal = !!target?.closest?.('.reveal');
-    cursorRoot.classList.toggle('dwell-cursor--hidden', !overReveal);
+    const overChrome = !!target?.closest?.('.ui-chrome, .ui-brand');
+    const overPdfHint = !!target?.closest?.('.print-pdf-hint');
+    const showCursor = overReveal || overChrome || overPdfHint;
 
-    if (!overReveal || isPrintPaused()) {
+    cursorRoot.classList.toggle('dwell-cursor--hidden', !showCursor);
+
+    if (isPrintPaused()) {
+      cursorRoot.classList.remove('dwell-cursor--pointer');
+      cursorRoot.removeAttribute('data-dwell-variant');
+      resetProgress();
+      return;
+    }
+
+    if (!showCursor) {
       cursorRoot.classList.remove('dwell-cursor--pointer');
       cursorRoot.removeAttribute('data-dwell-variant');
       resetProgress();
@@ -199,9 +205,8 @@ export function initDwellNavigation(deck, options = {}) {
 
     updatePointerCursorState(target);
 
-    if (isOverChrome(x, y)) {
-      cursorRoot.classList.remove('dwell-cursor--pointer');
-      cursorRoot.removeAttribute('data-dwell-variant');
+    // Krawędziowy dwell tylko nad slajdami — nie przy chrome (unik przypadkowej nawigacji przy przyciskach w rogu)
+    if (!overReveal || overChrome) {
       resetProgress();
       return;
     }
