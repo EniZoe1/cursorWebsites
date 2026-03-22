@@ -209,3 +209,19 @@ html[data-lang='en'] .lang-pl {
 html[data-lang='pl'] .lang-en {
   display: none !important;
 }
+
+// Telefon / wąski ekran — większa skala treści (Reveal margin ↓ w main.js), mniejszy padding, wyższe minimum w clamp
+@media (max-width: 768px) {
+  :root {
+    --text-xs: clamp(0.8rem, 0.72rem + 0.45vw, 0.88rem);
+    --text-sm: clamp(0.95rem, 0.85rem + 0.55vw, 1.05rem);
+    --text-md: clamp(1.05rem, 0.95rem + 0.65vw, 1.2rem);
+    --text-lg: clamp(1.2rem, 1.02rem + 1vw, 1.45rem);
+    --text-xl: clamp(1.55rem, 1.2rem + 1.6vw, 2.2rem);
+    --text-hero: clamp(2.1rem, 1.65rem + 3.2vw, 3.35rem);
+  }
+
+  .reveal .slides section {
+    padding: var(--space-6) var(--space-6);
+  }
+}

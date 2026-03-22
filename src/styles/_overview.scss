@@ -1,0 +1,58 @@
+// Overview (ESC map): smooth transitions layered on Reveal defaults
+
+$overview-ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+// Slides viewport: fluid transform when overview toggles (Reveal drives transform via JS)
+.reveal.overview .slides,
+.reveal.overview-deactivating .slides {
+  transition:
+    transform 0.55s $overview-ease,
+    filter 0.5s $overview-ease !important;
+}
+
+// Reveal sets transition:none on sections in overview — override for blur/opacity polish
+.reveal.overview .slides section {
+  transition:
+    filter 0.45s $overview-ease,
+    opacity 0.45s $overview-ease,
+    box-shadow 0.35s $overview-ease !important;
+}
+
+.reveal.overview .slides section.past,
+.reveal.overview .slides section.future {
+  filter: blur(1.2px);
+  opacity: 0.5;
+}
+
+.reveal.overview .slides section.present {
+  filter: none;
+  opacity: 1;
+}
+
+.reveal.overview .slides section.present:hover {
+  filter: brightness(1.07);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent, #8b5cf6) 50%, transparent),
+    0 0 32px color-mix(in srgb, var(--accent, #8b5cf6) 32%, transparent),
+    0 14px 44px rgba(0, 0, 0, 0.38) !important;
+  z-index: 3;
+}
+
+.reveal.overview .slides section.present {
+  cursor: pointer;
+}
+
+// Background tiles: softer when not current
+.reveal.overview .backgrounds .slide-background.past,
+.reveal.overview .backgrounds .slide-background.future {
+  transition:
+    opacity 0.45s $overview-ease,
+    filter 0.45s $overview-ease !important;
+  opacity: 0.38;
+  filter: blur(1px);
+}
+
+.reveal.overview .backgrounds .slide-background.present {
+  opacity: 1;
+  filter: none;
+}

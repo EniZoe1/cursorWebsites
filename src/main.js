@@ -16,6 +16,7 @@ import {
 } from './js/i18n.js';
 import { getStoredTheme, isDarkTheme, setTheme, toggleTheme } from './js/theme.js';
 import { openPrintPdfView } from './js/pdf.js';
+import { initDwellNavigation } from './js/dwell-navigation.js';
 
 const slidesRoot = document.getElementById('slides-container');
 const btnTheme = document.getElementById('btn-theme');
@@ -59,14 +60,51 @@ function initChrome() {
 }
 
 function bindDeckLogos(deck) {
-  const openOverview = (e) => {
+  const reveal = document.querySelector('.reveal');
+
+  /** Małe logo w pasku: w mapie zamyka overview (powrót do ostatniego slajdu). Duże logo na hero w mapie pozostaje nieaktywne. */
+  function onDeckLogoClick(e) {
+    const isChromeLogo = Boolean(e.currentTarget.closest('.ui-brand'));
+    const isHeroLogo = e.currentTarget.classList.contains('slide-title-logo');
+    const inOverview = !!reveal?.classList.contains('overview');
+
+    if (inOverview && isChromeLogo) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof deck.toggleOverview === 'function') {
+        deck.toggleOverview(false);
+      }
+      return;
+    }
+
+    if (inOverview && isHeroLogo) {
+      return;
+    }
+
     e.preventDefault();
     e.stopPropagation();
-    if (typeof deck.toggleOverview === 'function') deck.toggleOverview();
-  };
+    if (typeof deck.toggleOverview === 'function') {
+      deck.toggleOverview();
+    }
+  }
+
+  function syncLogoButtonsForOverview() {
+    const inOverview = !!reveal?.classList.contains('overview');
+    document.querySelectorAll('.slide-title-logo.js-deck-logo').forEach((el) => {
+      el.disabled = inOverview;
+      el.setAttribute('aria-disabled', inOverview ? 'true' : 'false');
+    });
+    const chromeBtn = document.querySelector('.ui-brand .js-deck-logo');
+    if (chromeBtn) {
+      chromeBtn.disabled = false;
+      chromeBtn.setAttribute('aria-disabled', 'false');
+    }
+    const lang = document.documentElement.getAttribute('data-lang') === 'pl' ? 'pl' : 'en';
+    applyDomTranslations(lang);
+  }
 
   document.querySelectorAll('.js-deck-logo').forEach((el) => {
-    el.addEventListener('click', openOverview);
+    el.addEventListener('click', onDeckLogoClick);
   });
 
   const syncTitleSlide = () => {
@@ -75,7 +113,10 @@ function bindDeckLogos(deck) {
   };
 
   deck.on('slidechanged', syncTitleSlide);
+  deck.on('overviewshown', syncLogoButtonsForOverview);
+  deck.on('overviewhidden', syncLogoButtonsForOverview);
   syncTitleSlide();
+  syncLogoButtonsForOverview();
 }
 
 async function boot() {
@@ -102,6 +143,23 @@ async function boot() {
 
   await deck.initialize();
   bindDeckLogos(deck);
+  initDwellNavigation(deck, { dwellMs: 800, cooldownMs: 1000 });
+
+  const mobileMq = window.matchMedia('(max-width: 768px)');
+  function syncRevealLayoutForViewport() {
+    const mobile = mobileMq.matches;
+    deck.configure({
+      margin: mobile ? 0.02 : 0.08,
+      maxScale: mobile ? 2 : 1.6,
+    });
+    deck.layout();
+  }
+  syncRevealLayoutForViewport();
+  if (typeof mobileMq.addEventListener === 'function') {
+    mobileMq.addEventListener('change', syncRevealLayoutForViewport);
+  } else {
+    mobileMq.addListener(syncRevealLayoutForViewport);
+  }
 }
 
 boot();

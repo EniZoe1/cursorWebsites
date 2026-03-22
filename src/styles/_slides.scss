@@ -5,8 +5,46 @@
   margin: 0 auto;
 }
 
-.slide--title .slide__inner {
-  max-width: min(56rem, 100%);
+// Szeroki kontener — złoty SVG ma dużą szerokość (viewBox ~1208); wąski max-width obcinał logo
+.slide--title .slide__inner.slide__inner--title {
+  max-width: min(98%, 60rem);
+  width: 100%;
+}
+
+// Strona główna — lżejsza skala niż „max” (na pełnym ekranie i tak czytelna)
+.slide--title {
+  .slide-title-logo {
+    margin-bottom: var(--space-6);
+    padding: var(--space-3) var(--space-5);
+  }
+
+  .slide-title-logo__img {
+    max-height: min(54vh, 600px);
+  }
+
+  .slide__inner--title .slide__eyebrow {
+    margin-bottom: var(--space-2);
+  }
+
+  .slide__inner--title .slide__heading {
+    font-size: clamp(2.05rem, 1.45rem + 2.05vw, 3.25rem);
+    margin-bottom: var(--space-4);
+  }
+
+  .slide__inner--title .slide__lede {
+    max-width: 32rem;
+    font-size: var(--text-md);
+  }
+
+  @media (max-width: 768px) {
+    .slide-title-logo__img {
+      max-height: min(52vmin, 72vh, 560px);
+    }
+
+    .slide__inner--title .slide__heading {
+      font-size: clamp(2rem, 1.5rem + 3.5vw, 2.85rem);
+    }
+  }
 }
 
 // Title slide: hero logo + centered copy
@@ -15,12 +53,18 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  // Bez tego szeroki SVG (intrinsic ~1208px) nie daje się zmniejszyć w flex — overflow w .reveal ucinało logo w PDF/druku
+  min-width: 0;
+  width: 100%;
 }
 
 .slide-title-logo {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  min-width: 0;
+  overflow: visible;
   margin: 0 0 var(--space-8);
   padding: var(--space-4) var(--space-6);
   border: 0;
@@ -60,10 +104,12 @@
 
 .slide-title-logo__img {
   display: block;
-  width: min(94vw, 52rem);
+  flex-shrink: 1;
+  min-width: 0;
+  width: auto;
   max-width: 100%;
   height: auto;
-  max-height: min(48vh, 420px);
+  max-height: min(65vh, 720px);
   object-fit: contain;
   object-position: center;
   filter: drop-shadow(0 8px 28px color-mix(in srgb, #000 45%, transparent));
@@ -75,6 +121,24 @@
 .slide-title-logo:hover .slide-title-logo__img,
 .slide-title-logo:focus-visible .slide-title-logo__img {
   filter: drop-shadow(0 16px 48px color-mix(in srgb, #d4af37 45%, transparent));
+}
+
+// W trybie mapy slajdów (overview) logo tytułu nie jest aktywne
+.reveal.overview .slide-title-logo,
+.slide-title-logo:disabled {
+  pointer-events: none;
+  cursor: default;
+  transform: none;
+  opacity: 1;
+  box-shadow:
+    0 0 0 1px var(--stroke),
+    var(--shadow-soft);
+  background: color-mix(in srgb, var(--glass-bg) 80%, transparent);
+}
+
+.reveal.overview .slide-title-logo:hover .slide-title-logo__img,
+.slide-title-logo:disabled .slide-title-logo__img {
+  filter: drop-shadow(0 8px 28px color-mix(in srgb, #000 45%, transparent));
 }
 
 .slide__inner--title .slide__eyebrow {
@@ -152,6 +216,33 @@
 
 .slide__list li {
   margin-bottom: var(--space-3);
+}
+
+.slide__toc {
+  margin-top: var(--space-4);
+  text-align: left;
+}
+
+.slide__toc-list {
+  margin: 0;
+  padding-left: 1.35rem;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  line-height: 1.65;
+}
+
+.slide__toc-list li {
+  margin-bottom: var(--space-3);
+  padding-left: var(--space-2);
+}
+
+.slide__toc-list li::marker {
+  color: color-mix(in srgb, var(--accent) 65%, var(--text-muted));
+  font-weight: 600;
+}
+
+.slide__list--refs {
+  line-height: 1.6;
 }
 
 .slide__list code {

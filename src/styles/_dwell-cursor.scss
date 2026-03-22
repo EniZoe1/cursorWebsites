@@ -1,0 +1,165 @@
+// Directional dwell — custom ring cursor (pointer-events: none)
+
+.reveal {
+  cursor: none;
+}
+
+.reveal.overview {
+  cursor: none;
+}
+
+.dwell-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10000;
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  pointer-events: none;
+  transform: translate3d(var(--dwell-x, 0px), var(--dwell-y, 0px), 0);
+  will-change: transform;
+  transition: opacity 0.15s var(--ease-soft, ease);
+}
+
+.dwell-cursor--hidden {
+  opacity: 0;
+}
+
+.dwell-cursor__svg {
+  display: block;
+  overflow: visible;
+}
+
+// Idle: thin, low-contrast ring
+.dwell-cursor__track {
+  fill: none;
+  stroke: color-mix(in srgb, var(--text-primary, #fff) 14%, transparent);
+  stroke-width: 0.9;
+  opacity: 0.45;
+  transition:
+    stroke 0.15s ease,
+    stroke-width 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.dwell-cursor__progress {
+  fill: none;
+  stroke: color-mix(in srgb, var(--text-primary, #fff) 88%, transparent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+
+// Loading (edge dwell): stronger track + visible progress arc
+.dwell-cursor--loading .dwell-cursor__track {
+  stroke: color-mix(in srgb, var(--text-primary, #fff) 38%, transparent);
+  stroke-width: 1.15;
+  opacity: 0.75;
+}
+
+.dwell-cursor--loading .dwell-cursor__progress {
+  stroke: color-mix(in srgb, var(--text-primary, #fff) 95%, transparent);
+  stroke-width: 2.25;
+  opacity: 1;
+}
+
+html[data-theme='light'] .dwell-cursor__track {
+  stroke: color-mix(in srgb, var(--text-primary, #121528) 18%, transparent);
+}
+
+html[data-theme='light'] .dwell-cursor--loading .dwell-cursor__track {
+  stroke: color-mix(in srgb, var(--text-primary, #121528) 42%, transparent);
+}
+
+html[data-theme='light'] .dwell-cursor--loading .dwell-cursor__progress {
+  stroke: color-mix(in srgb, var(--text-primary, #121528) 92%, transparent);
+}
+
+// Nad elementem interaktywnym — grubszy, kolorowy pierścień (wariant z JS: data-dwell-variant)
+.dwell-cursor--pointer .dwell-cursor__track {
+  stroke-width: 2.65;
+  opacity: 1;
+}
+
+.dwell-cursor--pointer[data-dwell-variant='gold'] .dwell-cursor__track {
+  stroke: #d4af37;
+  filter: drop-shadow(0 0 5px color-mix(in srgb, #d4af37 40%, transparent));
+}
+
+.dwell-cursor--pointer[data-dwell-variant='accent'] .dwell-cursor__track {
+  stroke: var(--accent);
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--accent) 35%, transparent));
+}
+
+.dwell-cursor--pointer[data-dwell-variant='default'] .dwell-cursor__track {
+  stroke: color-mix(in srgb, var(--accent) 50%, var(--accent-2) 50%);
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--accent-2) 30%, transparent));
+}
+
+html[data-theme='light'] .dwell-cursor--pointer[data-dwell-variant='default'] .dwell-cursor__track {
+  stroke: var(--accent);
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--accent) 25%, transparent));
+}
+
+.dwell-cursor--pointer.dwell-cursor--loading .dwell-cursor__track {
+  stroke-width: 2.85;
+  opacity: 0.95;
+}
+
+.dwell-cursor--pointer.dwell-cursor--loading[data-dwell-variant='gold'] .dwell-cursor__track {
+  stroke: #d4af37;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, #d4af37 45%, transparent));
+}
+
+.dwell-cursor--pointer.dwell-cursor--loading[data-dwell-variant='accent'] .dwell-cursor__track {
+  stroke: var(--accent);
+}
+
+.dwell-cursor--pointer.dwell-cursor--loading[data-dwell-variant='default'] .dwell-cursor__track {
+  stroke: color-mix(in srgb, var(--accent) 50%, var(--accent-2) 50%);
+}
+
+html[data-theme='light'] .dwell-cursor--pointer.dwell-cursor--loading[data-dwell-variant='default'] .dwell-cursor__track {
+  stroke: var(--accent);
+}
+
+.dwell-cursor--pointer[data-dwell-variant='gold'].dwell-cursor--loading .dwell-cursor__progress {
+  stroke: #d4af37;
+  stroke-width: 2.65;
+}
+
+.dwell-cursor--pointer[data-dwell-variant='accent'].dwell-cursor--loading .dwell-cursor__progress {
+  stroke: var(--accent);
+  stroke-width: 2.65;
+}
+
+.dwell-cursor--pointer[data-dwell-variant='default'].dwell-cursor--loading .dwell-cursor__progress {
+  stroke: color-mix(in srgb, var(--accent) 55%, var(--accent-2) 45%);
+  stroke-width: 2.65;
+}
+
+html[data-theme='light'] .dwell-cursor--pointer[data-dwell-variant='default'].dwell-cursor--loading .dwell-cursor__progress {
+  stroke: var(--accent);
+}
+
+@media print {
+  .reveal {
+    cursor: auto !important;
+  }
+
+  .dwell-cursor {
+    display: none !important;
+  }
+}
+
+html.print-pdf .reveal,
+html.reveal-print .reveal {
+  cursor: auto !important;
+}
+
+html.print-pdf .dwell-cursor,
+html.reveal-print .dwell-cursor {
+  display: none !important;
+}

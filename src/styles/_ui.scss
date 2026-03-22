@@ -25,7 +25,7 @@ body.is-title-slide .ui-brand {
   align-items: center;
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-md);
-  max-width: min(78vw, 24rem);
+  max-width: min(92vw, 40rem);
 }
 
 .ui-brand__btn {
@@ -56,11 +56,19 @@ body.is-title-slide .ui-brand {
   transform: translateY(-1px) scale(1.02);
 }
 
+.ui-brand__btn:disabled {
+  pointer-events: none;
+  cursor: default;
+  transform: none;
+  filter: none;
+  opacity: 1;
+}
+
 .ui-brand__logo {
   display: block;
   width: auto;
-  height: clamp(3.25rem, 9vh, 5.5rem);
-  max-width: min(72vw, 22rem);
+  height: clamp(5.5rem, 15vh, 10rem);
+  max-width: min(88vw, 38rem);
   object-fit: contain;
   object-position: left center;
   filter: drop-shadow(0 4px 18px color-mix(in srgb, var(--accent) 22%, transparent));
@@ -164,4 +172,32 @@ html[data-theme='light'] .ui-btn--accent {
 .ui-btn__text {
   min-width: 2.75rem;
   text-align: center;
+}
+
+// Widok ?print-pdf — podpowiedź przed oknem druku (sama nie trafia na kartkę)
+.print-pdf-hint {
+  display: none;
+  position: fixed;
+  z-index: 35;
+  left: 50%;
+  bottom: var(--space-6);
+  transform: translateX(-50%);
+  max-width: min(92vw, 40rem);
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  line-height: 1.45;
+  text-align: center;
+  color: var(--text-muted);
+  background: color-mix(in srgb, var(--glass-bg) 88%, transparent);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  pointer-events: none;
+}
+
+html.print-pdf .print-pdf-hint {
+  display: block;
 }
